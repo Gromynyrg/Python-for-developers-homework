@@ -1,5 +1,6 @@
 import random as rnd
 
+
 class NotOddPositive(Exception):
     def __init__(self, message):
         super().__init__(message)
@@ -42,6 +43,15 @@ def not_odd_positive_exception():
         print(f"Original error message: {str(e)}")
 
 
+def type_error_exception():
+    new_float_string = input("Please enter a float number: ")
+    try:
+        print(float(new_float_string))
+    except ValueError as e:
+        print("Error: Invalid input! Must be a number")
+        print(f"Original error message: {str(e)}")
+
+
 def index_out_of_range_exception():
     new_list = [rnd.randint(0, 10) for i in range(10)]
     index = int(input("Enter list element's index in range (0..9): "))
@@ -59,5 +69,6 @@ if __name__ == "__main__":
         "2": value_error_exception,
         "3": not_odd_positive_exception,
         "4": index_out_of_range_exception,
+        "5": type_error_exception,
     }
     function_for_tasks[task_number]()
