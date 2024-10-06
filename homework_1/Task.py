@@ -62,13 +62,37 @@ def index_out_of_range_exception():
         print(f"Original error message: {str(e)}")
 
 
+def math_and_sqrt_exception():
+    answer = ''
+    while answer.lower() not in ['y', 'n']:
+        answer = input("Do you want to import module math? (y/n): ")
+    try:
+        if answer.lower() == "y":
+            import math
+            number = float(input("Enter the positive number: "))
+            print(math.sqrt(number))
+        else:
+            raise ImportError("ImportError: you forgot to import module math")
+    except ImportError as e:
+        print("Error: Could not import module math")
+        print(f"Original error message: {str(e)}")
+    except ValueError as e:
+        print("Error: Invalid input! Must be a positive number to get sqrt")
+        print(f"Original error message: {str(e)}")
+
+
 if __name__ == "__main__":
-    task_number = input("Please, enter task number: ")
+    task_number = input("Please, enter task number (1..6): ")
     function_for_tasks = {
         "1": division_by_zero_exception,
         "2": value_error_exception,
         "3": not_odd_positive_exception,
         "4": index_out_of_range_exception,
         "5": type_error_exception,
+        "6": math_and_sqrt_exception,
     }
-    function_for_tasks[task_number]()
+    try:
+        function_for_tasks[task_number]()
+    except KeyError as e:
+        print("Error: Invalid key! Try another next time")
+        print(f"Original error message: {str(e)}")
