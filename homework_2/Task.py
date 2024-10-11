@@ -45,6 +45,22 @@ def get_words_count_from_file(filename: str) -> int:
     return word_count
 
 
+def get_unique_rows_from_file(filename_target: str, filename_result: str):
+    """
+    Функция для записи всех уникальных строк в новый файл
+
+    :param filename_target: Путь до файла со всеми строками
+    :param filename_result: Путь до файла для уникальных строк
+    """
+    unique_rows = set()
+    with open(filename_target, 'r', encoding='UTF-8') as file:
+        for line in file:
+            unique_rows.add(line.strip())
+    with open(filename_result, 'w', encoding='UTF-8') as file:
+        for row in unique_rows:
+            file.write(f'{row}\n')
+
+
 if __name__ == "__main__":
     task_number = input("Please, enter task number (1..4): ")
     if task_number == "1":
@@ -54,6 +70,6 @@ if __name__ == "__main__":
     elif task_number == "3":
         get_words_count_from_file('files/text_file.txt')
     elif task_number == "4":
-        get_words_count_from_file('files/text_file.txt')
+        get_unique_rows_from_file('files/input.txt', 'files/unique_output.txt')
     else:
         print("Error: Invalid key! Try another next time")
