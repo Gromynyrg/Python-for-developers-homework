@@ -1,5 +1,6 @@
 from threading import Thread
 import time
+import asyncio
 
 
 def square_of_nums(number_range: int = 10):
@@ -31,6 +32,23 @@ def print_numbers():
         time.sleep(1)
 
 
+async def calculate_square(num: int):
+    """
+    Функция вычисляет и выводит квадрат числа
+    """
+    await asyncio.sleep(1)
+    print(f'{num}^2 - {num ** 2}')
+
+
+async def create_async_calculate():
+    numbers = [x for x in range(1, 11)]
+    tasks = []
+    for number in numbers:
+        tasks.append(asyncio.create_task(calculate_square(number)))
+
+    for task in tasks:
+        await task
+
 if __name__ == '__main__':
     task_number = input("Please, enter task number (1..4): ")
     if task_number == "1":
@@ -44,16 +62,16 @@ if __name__ == '__main__':
         cube_thread.join()
     elif task_number == "2":
         thread_list = []
-        for i in range(5):
+        for j in range(5):
             new_thread = Thread(target=print_numbers)
             thread_list.append(new_thread)
             new_thread.start()
         for thread in thread_list:
             thread.join()
     elif task_number == "3":
-        pass
+        asyncio.run(create_async_calculate())
     elif task_number == "4":
-        pass
+
     else:
         print("Error: Invalid key! Try another next time")
 
