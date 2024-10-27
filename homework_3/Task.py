@@ -1,6 +1,8 @@
 from threading import Thread
 import time
 import asyncio
+import multiprocessing
+import math
 
 
 def square_of_nums(number_range: int = 10):
@@ -41,16 +43,27 @@ async def calculate_square(num: int):
 
 
 async def create_async_calculate():
-    numbers = [x for x in range(1, 11)]
+    numbers_list = [x for x in range(1, 11)]
     tasks = []
-    for number in numbers:
+    for number in numbers_list:
         tasks.append(asyncio.create_task(calculate_square(number)))
 
     for task in tasks:
         await task
 
+
+def calculate_factorial(num: int):
+    """
+    Функция вычисляет и выводит факториал числа
+
+    :param num: Число целого типа
+    """
+    print(f'Factorial of {num} is {math.factorial(num)}')
+
+
 if __name__ == '__main__':
     task_number = input("Please, enter task number (1..4): ")
+
     if task_number == "1":
         square_thread = Thread(target=square_of_nums)
         cube_thread = Thread(target=cubes_of_nums)
@@ -60,6 +73,7 @@ if __name__ == '__main__':
 
         square_thread.join()
         cube_thread.join()
+
     elif task_number == "2":
         thread_list = []
         for j in range(5):
@@ -68,9 +82,20 @@ if __name__ == '__main__':
             new_thread.start()
         for thread in thread_list:
             thread.join()
+
     elif task_number == "3":
         asyncio.run(create_async_calculate())
+
     elif task_number == "4":
+        numbers = [x for x in range(110)]
+        process_list = []
+        for number in numbers:
+            process_list.append(
+                multiprocessing.Process(target=calculate_factorial, args=(number,))
+            )
+            process_list[-1].start()
+        for process in process_list:
+            process.join()
 
     else:
         print("Error: Invalid key! Try another next time")
