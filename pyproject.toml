@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "python-for-developers-homework"
+version = "0.1.0"
+description = "Homework"
+authors = ["gromynyrg <kykabazyca@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = {extras = ["email"], version = "^2.9.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
