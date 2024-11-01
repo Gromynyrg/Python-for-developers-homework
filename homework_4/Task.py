@@ -35,6 +35,17 @@ class Order:
             total_cost += product.price * quantity
         return total_cost
 
+    def remove_product(self, product: Product, quantity: int):
+        if product in self.products:
+            if self.products[product] > quantity:
+                self.products[product] -= quantity
+                product.update_stock(quantity)
+            else:
+                product.update_stock(self.products[product])
+                self.products.pop(product)
+        else:
+            raise ValueError(f"Order does not contain {product.name}")
+
 
 class Store:
     def __init__(self):
@@ -80,3 +91,10 @@ if __name__ == '__main__':
 
     # Проверяем остатки на складе после заказа
     store.list_products()
+
+    # Удаляем товар из заказа
+    order.remove_product(product1, 1)
+
+    # Выводим общую стоимость заказа после удаления товара
+    total = order.calculate_total()
+    print(f"Общая стоимость заказа после удаления: {total}")
